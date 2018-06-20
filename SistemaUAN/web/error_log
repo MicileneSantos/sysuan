@@ -1,0 +1,263 @@
+[26-Mar-2018 20:43:32 UTC] An Error occurred while handling another error:
+ReflectionException: Class yii\bootstrap\BootstrapAsset does not exist in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/di/Container.php:426
+Stack trace:
+#0 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/di/Container.php(426): ReflectionClass->__construct('yii\\bootstrap\\B...')
+#1 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/di/Container.php(364): yii\di\Container->getDependencies('yii\\bootstrap\\B...')
+#2 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/di/Container.php(156): yii\di\Container->build('yii\\bootstrap\\B...', Array, Array)
+#3 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/BaseYii.php(349): yii\di\Container->get('yii\\bootstrap\\B...', Array, Array)
+#4 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/AssetManager.php(266): yii\BaseYii::createObject(Array)
+#5 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/AssetManager.php(239): yii\web\AssetManager->loadBundle('yii\\bootstrap\\B...', Array, true)
+#6 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/View.php(286): yii\web\AssetManager->getBundle('yii\\bootstrap\\B...')
+#7 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/View.php(291): yii\web\View->registerAssetBundle('yii\\bootstrap\\B...', NULL)
+#8 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/AssetBundle.php(125): yii\web\View->registerAssetBundle('app\\assets\\AppA...')
+#9 /home/cleianec/public_html/refeitorio/SistemaUAN/views/layouts/main.php(10): yii\web\AssetBundle::register(Object(yii\web\View))
+#10 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/View.php(332): require('/home/cleianec/...')
+#11 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/View.php(250): yii\base\View->renderPhpFile('/home/cleianec/...', Array)
+#12 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Controller.php(399): yii\base\View->renderFile('/home/cleianec/...', Array, Object(app\controllers\SiteController))
+#13 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Controller.php(385): yii\base\Controller->renderContent('<div class="sit...')
+#14 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/ErrorAction.php(128): yii\base\Controller->render('error', Array)
+#15 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/ErrorAction.php(107): yii\web\ErrorAction->renderHtmlResponse()
+#16 [internal function]: yii\web\ErrorAction->run()
+#17 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Action.php(94): call_user_func_array(Array, Array)
+#18 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\Action->runWithParams(Array)
+#19 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('error', Array)
+#20 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/ErrorHandler.php(97): yii\base\Module->runAction('site/error')
+#21 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\NotFoundHttpException))
+#22 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\NotFoundHttpException))
+#23 {main}
+Previous exception:
+yii\web\NotFoundHttpException: Você não tem permissão para acessar esta página. in /home/cleianec/public_html/refeitorio/SistemaUAN/controllers/UsuariosController.php:59
+Stack trace:
+#0 [internal function]: app\controllers\UsuariosController->actionIndex()
+#1 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#2 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Controller.php(157): yii\base\InlineAction->runWithParams(Array)
+#3 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Module.php(528): yii\base\Controller->runAction('', Array)
+#4 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('usuarios', Array)
+#5 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#6 /home/cleianec/public_html/refeitorio/SistemaUAN/web/index.php(12): yii\base\Application->run()
+#7 {main}
+$_SERVER = [
+    'CONTEXT_DOCUMENT_ROOT' => '/home/cleianec/public_html',
+    'CONTEXT_PREFIX' => '',
+    'DOCUMENT_ROOT' => '/home/cleianec/public_html',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+    'HTTP_CONNECTION' => 'close',
+    'HTTP_COOKIE' => 'PHPSESSID=2k1ku4vv9ls0s3hrr6hq86ojk4',
+    'HTTP_HOST' => 'www.cleiane.com.br',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36',
+    'HTTP_X_FORWARDED_FOR' => '200.131.5.200',
+    'HTTP_X_FORWARDED_PROTO' => 'http',
+    'PATH' => '/bin:/usr/bin',
+    'QUERY_STRING' => 'r=usuarios',
+    'REDIRECT_STATUS' => '200',
+    'REMOTE_ADDR' => '200.131.5.200',
+    'REMOTE_PORT' => '44688',
+    'REQUEST_METHOD' => 'GET',
+    'REQUEST_SCHEME' => 'http',
+    'REQUEST_URI' => '/refeitorio/SistemaUAN/web/index.php?r=usuarios',
+    'SCRIPT_FILENAME' => '/home/cleianec/public_html/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_NAME' => '/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_URI' => 'http://www.cleiane.com.br/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_URL' => '/refeitorio/SistemaUAN/web/index.php',
+    'SERVER_ADDR' => '98.142.105.186',
+    'SERVER_ADMIN' => 'webmaster@cleiane.com.br',
+    'SERVER_NAME' => 'www.cleiane.com.br',
+    'SERVER_PORT' => '80',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'UNIQUE_ID' => 'WrlbdMWIxgNme31W4hwTLQAAABM',
+    'PHP_SELF' => '/refeitorio/SistemaUAN/web/index.php',
+    'REQUEST_TIME_FLOAT' => 1522097012.4550778865814208984375,
+    'REQUEST_TIME' => 1522097012,
+    'argv' => [
+        'r=usuarios',
+    ],
+    'argc' => 1,
+]
+[27-Mar-2018 23:09:24 UTC] PHP Fatal error:  Class 'yii\base\model' not found in /home/cleianec/public_html/refeitorio/SistemaUAN/models/FormRecoverPass.php on line 7
+[26-Apr-2018 13:07:23 UTC] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/mpdf/mpdf/src/Mpdf.php on line 9316. in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/mpdf/mpdf/src/Mpdf.php on line 9316. in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/cleianec/public_html/refeitorio/SistemaUAN/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'CONTEXT_DOCUMENT_ROOT' => '/home/cleianec/public_html',
+    'CONTEXT_PREFIX' => '',
+    'DOCUMENT_ROOT' => '/home/cleianec/public_html',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+    'HTTP_CONNECTION' => 'close',
+    'HTTP_COOKIE' => 'PHPSESSID=gb6v5rep8ivj49aod2riljf6k1; _identity=b0f95da3958ed69d441c61ada0b2de47c8b95d7c2a3f3865a42cdbdbcd68a940a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B4%2Cnull%2C2592000%5D%22%3B%7D; _csrf=29fb58962ffa231aa9f6d82f04928e010e96aee1473adb2b823c68a291018e40a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22s0kKrYR12YTf9g6INNxRLxke3sfpmVnc%22%3B%7D',
+    'HTTP_HOST' => 'www.cleiane.com.br',
+    'HTTP_REFERER' => 'http://www.cleiane.com.br/refeitorio/SistemaUAN/web/index.php?r=usuarios%2Findex',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36',
+    'HTTP_X_FORWARDED_FOR' => '181.191.48.97',
+    'HTTP_X_FORWARDED_PROTO' => 'http',
+    'PATH' => '/bin:/usr/bin',
+    'QUERY_STRING' => 'r=usuarios%2Fgerar',
+    'REDIRECT_STATUS' => '200',
+    'REMOTE_ADDR' => '181.191.48.97',
+    'REMOTE_PORT' => '36410',
+    'REQUEST_METHOD' => 'GET',
+    'REQUEST_SCHEME' => 'http',
+    'REQUEST_URI' => '/refeitorio/SistemaUAN/web/index.php?r=usuarios%2Fgerar',
+    'SCRIPT_FILENAME' => '/home/cleianec/public_html/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_NAME' => '/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_URI' => 'http://www.cleiane.com.br/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_URL' => '/refeitorio/SistemaUAN/web/index.php',
+    'SERVER_ADDR' => '98.142.105.186',
+    'SERVER_ADMIN' => 'webmaster@cleiane.com.br',
+    'SERVER_NAME' => 'www.cleiane.com.br',
+    'SERVER_PORT' => '80',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'UNIQUE_ID' => 'WuHPC7xI9pYUX64Dvn487AAAACQ',
+    'PHP_SELF' => '/refeitorio/SistemaUAN/web/index.php',
+    'REQUEST_TIME_FLOAT' => 1524748043.55609607696533203125,
+    'REQUEST_TIME' => 1524748043,
+    'argv' => [
+        'r=usuarios%2Fgerar',
+    ],
+    'argc' => 1,
+]
+[18-May-2018 02:24:26 America/Sao_Paulo] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/mpdf/mpdf/src/Mpdf.php on line 9316. in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/mpdf/mpdf/src/Mpdf.php on line 9316. in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/cleianec/public_html/refeitorio/SistemaUAN/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'CONTEXT_DOCUMENT_ROOT' => '/home/cleianec/public_html',
+    'CONTEXT_PREFIX' => '',
+    'DOCUMENT_ROOT' => '/home/cleianec/public_html',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+    'HTTP_CONNECTION' => 'close',
+    'HTTP_COOKIE' => 'PHPSESSID=b91lpape8c715o3ebuf3id98q3; _identity=22713bc86c6e4c1d5a435db11f7dc68615dd93fe49c30fa2d1bf75bbff7a6170a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B3%2Cnull%2C2592000%5D%22%3B%7D; _csrf=ebdfe40ae306c750868f75f256be6600724fbdbce42f4cb74a7101b109b6a20ea%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22FFqHn4d8Z7NjdstKOXv0u1QVfU77fcmj%22%3B%7D; _mcnc=1',
+    'HTTP_HOST' => 'www.cleiane.com.br',
+    'HTTP_REFERER' => 'http://www.cleiane.com.br/refeitorio/SistemaUAN/web/index.php?r=fornecedor/index/',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36',
+    'HTTP_X_FORWARDED_FOR' => '200.131.5.200',
+    'HTTP_X_FORWARDED_PROTO' => 'http',
+    'PATH' => '/bin:/usr/bin',
+    'QUERY_STRING' => 'r=fornecedor%2Fgerar',
+    'REDIRECT_STATUS' => '200',
+    'REMOTE_ADDR' => '200.131.5.200',
+    'REMOTE_PORT' => '45890',
+    'REQUEST_METHOD' => 'GET',
+    'REQUEST_SCHEME' => 'http',
+    'REQUEST_URI' => '/refeitorio/SistemaUAN/web/index.php?r=fornecedor%2Fgerar',
+    'SCRIPT_FILENAME' => '/home/cleianec/public_html/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_NAME' => '/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_URI' => 'http://www.cleiane.com.br/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_URL' => '/refeitorio/SistemaUAN/web/index.php',
+    'SERVER_ADDR' => '98.142.105.186',
+    'SERVER_ADMIN' => 'webmaster@cleiane.com.br',
+    'SERVER_NAME' => 'www.cleiane.com.br',
+    'SERVER_PORT' => '80',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'TZ' => 'America/Sao_Paulo',
+    'UNIQUE_ID' => 'Wv5jiVteMnb33Wm2HG3NcQAAAAY',
+    'PHP_SELF' => '/refeitorio/SistemaUAN/web/index.php',
+    'REQUEST_TIME_FLOAT' => 1526621065.99627208709716796875,
+    'REQUEST_TIME' => 1526621065,
+    'argv' => [
+        'r=fornecedor%2Fgerar',
+    ],
+    'argc' => 1,
+]
+[18-May-2018 03:47:33 America/Sao_Paulo] An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/mpdf/mpdf/src/Mpdf.php on line 9316. in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/ErrorHandler.php(135): yii\web\Response->send()
+#2 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/mpdf/mpdf/src/Mpdf.php on line 9316. in /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php:366
+Stack trace:
+#0 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/web/Response.php(339): yii\web\Response->sendHeaders()
+#1 /home/cleianec/public_html/refeitorio/SistemaUAN/vendor/yiisoft/yii2/base/Application.php(392): yii\web\Response->send()
+#2 /home/cleianec/public_html/refeitorio/SistemaUAN/web/index.php(12): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'CONTEXT_DOCUMENT_ROOT' => '/home/cleianec/public_html',
+    'CONTEXT_PREFIX' => '',
+    'DOCUMENT_ROOT' => '/home/cleianec/public_html',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+    'HTTP_CACHE_CONTROL' => 'max-age=259200',
+    'HTTP_CONNECTION' => 'close',
+    'HTTP_COOKIE' => '_ga=GA1.3.2069923926.1526641261; _gid=GA1.3.118273516.1526641261; PHPSESSID=hasr6s7fb687icpgmcgoio88i4; _identity=b0f95da3958ed69d441c61ada0b2de47c8b95d7c2a3f3865a42cdbdbcd68a940a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A16%3A%22%5B4%2Cnull%2C2592000%5D%22%3B%7D; _csrf=8d61d60f520dedbb2fd2ae1c8b16381f27939f5f4c91f8d610508080ea82fbfea%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22AukSvpVVSRP1nJImeXcw03zN34jFc6cN%22%3B%7D',
+    'HTTP_HOST' => 'cleiane.com.br',
+    'HTTP_REFERER' => 'http://cleiane.com.br/refeitorio/SistemaUAN/web/index.php?r=usuarios%2Findex',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36',
+    'HTTP_VIA' => '1.1 pfsense:3128 (squid)',
+    'HTTP_X_FORWARDED_FOR' => '192.168.200.237, 200.131.5.200',
+    'HTTP_X_FORWARDED_PROTO' => 'http',
+    'PATH' => '/bin:/usr/bin',
+    'QUERY_STRING' => 'r=usuarios%2Fgerar',
+    'REDIRECT_STATUS' => '200',
+    'REMOTE_ADDR' => '200.131.5.200',
+    'REMOTE_PORT' => '56080',
+    'REQUEST_METHOD' => 'GET',
+    'REQUEST_SCHEME' => 'http',
+    'REQUEST_URI' => '/refeitorio/SistemaUAN/web/index.php?r=usuarios%2Fgerar',
+    'SCRIPT_FILENAME' => '/home/cleianec/public_html/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_NAME' => '/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_URI' => 'http://cleiane.com.br/refeitorio/SistemaUAN/web/index.php',
+    'SCRIPT_URL' => '/refeitorio/SistemaUAN/web/index.php',
+    'SERVER_ADDR' => '98.142.105.186',
+    'SERVER_ADMIN' => 'webmaster@cleiane.com.br',
+    'SERVER_NAME' => 'cleiane.com.br',
+    'SERVER_PORT' => '80',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'TZ' => 'America/Sao_Paulo',
+    'UNIQUE_ID' => 'Wv53Bdi@YJ@tRz2bKdVOKwAAAAM',
+    'PHP_SELF' => '/refeitorio/SistemaUAN/web/index.php',
+    'REQUEST_TIME_FLOAT' => 1526626053.3077061176300048828125,
+    'REQUEST_TIME' => 1526626053,
+    'argv' => [
+        'r=usuarios%2Fgerar',
+    ],
+    'argc' => 1,
+]
