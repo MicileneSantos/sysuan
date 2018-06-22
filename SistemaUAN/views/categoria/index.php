@@ -13,21 +13,21 @@ use yii\widgets\Pjax;
 
 $this->title = 'Categorias cadastradas';
 //$this->params['breadcrumbs'][] = $this->title;
+
 ?>
+
 <?php $form = ActiveForm::begin([
     'action' => Url::to(['categoria/gerar']),
     'method' => 'get',
 ]);?>
 
-<div class="pull-right">       
-    <?= Html::a('<b class="fa fa-arrow-left"></b> Voltar', ['site/nutricionista'], ['class' => 'btn btn-default','title' => 'Voltar', 'id' => 'modal-btn-voltar'])?>
-    <?= Html::a('<b class="fa fa-plus"></b> Novo', ['create'], ['class' => 'btn btn-success' ])?>
-    <?= Html::a('<b class="fa fa-download"></b>', ['gerar'], ['target'=>'_blank','class' => 'btn btn-default','title' => 'Exportar', 'id' => 'modal-btn-pdf'])?>
-</div>
 
-<hr>
 <div class="categoria-index">
-    
+    <?php if($model->isNewRecord) 
+    echo $this->render('create', ['model' => $model]); 
+   else
+    echo $this->render('update', ['model' => $model]);  
+?>
     <?php Pjax::begin(); ?>    
     
     <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -38,8 +38,15 @@ $this->title = 'Categorias cadastradas';
         <div class="panel-heading">
             <h5 class="panel-title">LISTA DE CATEGORIAS CADASTRADAS</h5>
         </div>
-        <div class="box box-success"></div>
+        <div class="box box-success">
+            
+
             <div class="panel-body">
+                <div class="pull-right">       
+            <?= Html::a('<b class="fa fa-arrow-left"></b> Voltar', ['site/nutricionista'], ['class' => 'btn btn-default','title' => 'Voltar', 'id' => 'modal-btn-voltar'])?>
+            <?= Html::a('<b class="fa fa-download"></b>', ['gerar'], ['target'=>'_blank','class' => 'btn btn-default','title' => 'Exportar', 'id' => 'modal-btn-pdf'])?>
+        </div><br>
+
     
     <?= GridView::widget([
         //'id' => 'install-grid',

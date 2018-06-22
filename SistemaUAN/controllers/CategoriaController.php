@@ -83,12 +83,15 @@ class CategoriaController extends Controller
     public function actionIndex()
     {
         if ((Yii::$app->user->can('nutricionista'))){
+
+            $model = new Categoria();
             $searchModel = new CategoriaSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
+                'model' => $model,
             ]);
         } else {
            throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
@@ -133,7 +136,7 @@ class CategoriaController extends Controller
                                                 'positonX' => 'left'
                                                 ]);
                 
-                return $this->redirect(['categoria/index']);
+                return $this->redirect(['index']);
             }else{
                 return $this->render('create', [
                    'model' => $model,

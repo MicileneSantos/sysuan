@@ -7,14 +7,28 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\Categoria */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<hr>
+
 <div class="categoria-form">
     <div class="panel panel-success">
     <div class="panel-heading"><h5 class="panel-title">CADASTRO DE CATEGORIA</h5></div>
-        <div class="box box-success">
-            <?php $form = ActiveForm::begin([
-                'options' => ['data-pjax' => true]
-            ]); ?>
+        <div class="box box-success">  
+        <?php
+        if ($this->context->action->id == 'update')
+            $action = ['update', 'id' => $_REQUEST['id']];
+        else
+            $action = ['create'];
+        ?>
+        <?php
+        $form = ActiveForm::begin([
+
+                    'id' => 'panel panel-info',
+                    'enableAjaxValidation' => true,
+                    'action' => $action,
+                    'fieldConfig' => [
+                        'template' => " <strong>Descrição</strong> {input}{error}",
+                    ],
+        ]);
+        ?>
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-4"><?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?></div>

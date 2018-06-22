@@ -18,6 +18,7 @@
         "yiisoft/yii2": "~2.0.5",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.1.0",
+        "almasaeed2010/adminlte": "2.1.1",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "beaten-sect0r/yii2-db-manager": "^2.0",
         "2amigos/yii2-date-picker-widget": "~1.0",

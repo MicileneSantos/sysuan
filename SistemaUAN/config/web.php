@@ -14,10 +14,12 @@ $config = [
            'class' => '\kartik\grid\Module'
         ],
     ],
+    'layout'=>'column2',
+    'layoutPath'=>'@app/themes/adminLTE/layouts',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
-        '@adminlte/widgets'=>'@vendor/adminlte/yii2-widgets',
+        '@adminlte/widgets'=>'@vendor/adminlte/yii2-widgets'
     ],
     'components' => [
         'request' => [
@@ -54,7 +56,7 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.gmail.com',
