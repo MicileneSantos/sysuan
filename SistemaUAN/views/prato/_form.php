@@ -1,17 +1,64 @@
 <?php
 
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\models\Produto;
 use app\models\ProdutoPrato;
 use kartik\widgets\Select2;
 use yii\web\JsExpression;
 use wbraganca\dynamicform\DynamicFormWidget;
+use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Prato */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->registerJs('
+    $(document).on("click",".remove-ingrediente",function(){
+        var context = $(this);
+    
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            data:{id:context.data("key")},
+            url: "'.Url::to (['/prato/remove-ingrediente']).'",
+            success: function(result){
+                if(result.data) {
+                    $.pjax.reload({container: ".modal-container", timeout: 100});
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError){
+                console.log(xhr, ajaxOptions, thrownError)
+            }
+        });
+    }); 
+    
+    $(document).on("click",".add-ingrediente",function(){
+        var ingredienteId = $("#descricao").val();
+        var ingredienteValue = $("#descricao option:selected").text();
+        var percapita = $("#percapita").val();
+    
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            data:{id:ingredienteId, value:ingredienteValue, percapita: percapita},
+            url: "'.Url::to (['/prato/add-ingrediente']).'",
+            success: function(result){
+                if(result.data) { console.log(result.data)
+                    $.pjax.reload({container: ".modal-container", timeout: 100});
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError){
+                console.log(xhr, ajaxOptions, thrownError)
+            }
+        });
+    });    
+');
+
 ?>
 
 <div class="prato-form">
@@ -21,11 +68,15 @@ use yii\helpers\ArrayHelper;
         <div class="box box-success">
         <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
             <div class="box-header with-border">
-        
+
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-4"><?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?></div>
-                    </div><hr> 
+                        <div class="col-md-4">
+                            <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
+                        </div>
+                    </div>
+
+                    <hr>
 
                     <?php //Html::submitButton($model->isNewRecord ? 'Salvar' : 'Alterar', ['class' => 'btn btn-success']) ?>
 
@@ -35,60 +86,91 @@ use yii\helpers\ArrayHelper;
 
                     <div class="panel panel-success">
 
-                    <div class="panel-heading"><h4><i class=""></i>ADICIONAR INGREDIENTES</h4></div>
-                    <div class="panel-body">
-                        <?php
-                        DynamicFormWidget::begin([
-                            'widgetContainer' => 'dynamicform_wrappe2', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
-                            'widgetBody' => '.container-items', // required: css class selector
-                            'widgetItem' => '.item', // required: css class
-                            'limit' => 10, // the maximum times, an element can be cloned (default 999)
-                            'min' => 1, // 0 or 1 (default 1)
-                            'insertButton' => '.add-item', // css class
-                            'deleteButton' => '.remove-item', // css class
-                            'model' => $modelProduto[0],
-                            'formId' => 'dynamic-form',
-                            'formFields' => [
-                                'produto_id',
-                            ],
-                        ]);
-                        ?>
+                        <div class="panel-heading">
+                            <h4><i class=""></i>INGREDIENTES</h4>
+                        </div>
+                        <div class="panel-body">
 
-                        <div class="container-items" ><!-- widgetContainer -->
-                            <?php foreach ($modelProduto as $i => $modelProduto): ?>
-                                <div class="item panel "><!-- widgetBody -->
-                                    <div class="panel-heading">
-                                        <!--h3 class="panel-title pull-left">Adicionar Ingredientes</h3-->
-                                         <?php
-                                        // necessary for update action.
-                                        if (!$modelProduto->isNewRecord) {
-                                            //olhar carregamento do update//
-                                            echo Html::activeHiddenInput($modelProduto, "[{$i}]id");
-                                        }
-                                        ?>
+                            <div class="row">
 
-                                        <div class="row">
-                                            <div class="col-md-4"><?= $form->field($modelProduto, "[{$i}]produto_id")->dropdownList(ArrayHelper::map(Produto::find()->orderBy('descricao')->all(),'id','descricao'), ['prompt' => 'Selecione um ingrediente...']);?>
+                                <?= Html::beginForm (null, null, ['id' => 'ingrediente']); ?>
 
-                                                <?= $form->field($modelProduto, "[{$i}]percapita")->textInput(['maxlength' => true]);?>
-                                        
-
-                                        
-                                            <button type="button" class="add-item btn btn-success btn-xs"><i class="glyphicon glyphicon-plus "></i> Adicionar</button>
-                                            <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus "></i> Remover</button></div>
-                                        </div>
-                                        <div class="clearfix"></div>
+                                <div class="input-append">
+                                    <div class="col-md-4">
+                                        <?= Html::label ('Ingredientes') ?>
+                                        <?= Html::dropDownList (
+                                                'ingrediente',
+                                                null,
+                                                ArrayHelper::map(Produto::find()->orderBy('descricao')->all(),'id','descricao')
+                                                , [
+                                                        'class' => 'form-control',
+                                                        'prompt' => 'Selecione um ingrediente...',
+                                                        'id' => 'descricao'
+                                                    ]) ?>
                                     </div>
-                                    <!--div class="panel-body"-->
-                                       
-                                    
+                                    <div class="col-md-2">
+                                        <?= Html::label ('Per capita') ?>
+                                        <?= Html::textInput ('percapita', null, ['class' => 'form-control', 'id' => 'percapita']) ?>
+                                    </div>
+                                    <br>
+                                    <?= Html::button('<b class="fa fa-plus"></b> Adicionar ingredientes', [
+                                        'class' => 'btn btn-success add-ingrediente',
+                                    ])?>
                                 </div>
-                            <?php endforeach; ?>
+
+                                <?= Html::endForm () ?>
+
                             </div>
-                            <?php DynamicFormWidget::end(); ?>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <?php Pjax::begin(['enablePushState' => false, 'options' => ['class' => 'modal-container'], 'id' => 'ingrediente-list']); ?>
+
+                                    <?= GridView::widget([
+                                        'dataProvider' => new \yii\data\ArrayDataProvider([
+                                            'allModels' => $model::ingredienteSession ()
+                                        ]),
+                                        'columns' => [
+                                            [
+                                                'label' => 'Ingredientes',
+                                                'value' => 'descricao',
+                                            ],
+                                            [
+                                                'label' => 'Per capita',
+                                                'value' => 'percapita',
+                                            ],
+
+
+                                            [
+                                                    'class' => 'yii\grid\ActionColumn',
+                                                    'headerOptions' => ['width' => '34'],
+                                                    'template' => '{delete}',
+                                                    'buttons' => [
+                                                            'delete' => function($url, $model) {
+                                                                return Html::a (Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash']), null, [
+                                                                    'class' => 'remove-ingrediente',
+                                                                    'role' => 'button',
+                                                                    'data' => [
+                                                                            'key' => $model['produto_id']
+                                                                    ]
+                                                                ]);
+                                                            }
+                                                    ]
+                                            ],
+                                        ],
+                                    ]); ?>
+
+                                    <?php Pjax::end () ?>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                    
+                    </div>
+
                     <div class="form-group">
                         <div class="pull-right"><?= Html::a('Cancelar', ['prato/index'], ['class' => 'btn btn-default']) ?>
                         <?= Html::submitButton($model->isNewRecord ? 'Salvar' : 'Alterar', ['class' => 'btn btn-success']) ?>
@@ -98,5 +180,4 @@ use yii\helpers\ArrayHelper;
             </div>
         <?php ActiveForm::end(); ?>
     </div>
-</div>
 </div>

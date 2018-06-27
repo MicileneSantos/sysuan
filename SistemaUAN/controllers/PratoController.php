@@ -7,6 +7,7 @@ use app\models\Prato;
 use app\models\PratoSearch;
 use app\models\ProdutoPrato;
 use app\models\Produto;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -64,7 +65,20 @@ class PratoController extends Controller {
 
                 return $pdf->render();       
     }
-    
+
+    /**
+     * @param $action
+     * @return bool
+     * @throws BadRequestHttpException
+     */
+    public function beforeAction ($action)
+    {
+        if (in_array ($action->id, ['index', 'view'])) {
+            Yii::$app->session->remove ('ingredientes');
+        }
+        return parent::beforeAction ($action);
+    }
+
     /**
      * Lists all Prato models.
      * @return mixed
@@ -132,10 +146,10 @@ class PratoController extends Controller {
     public function actionCreate() {
         if ((Yii::$app->user->can('nutricionista'))){
             $model = new Prato();
-            $modelProduto = [new ProdutoPrato()];
-            $produto = new Produto();
-        
-            if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+
+            $model::ingredienteSession ();
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //$modelProduto->unidade_id = $produto->unidade_id;
 
                 Yii::$app->getSession()->setFlash('info', [
@@ -149,8 +163,7 @@ class PratoController extends Controller {
                 return $this->redirect(['index']);
             } else {
                 return $this->render('create', [
-                            'model' => $model,
-                            'modelProduto' => (empty($modelProduto)) ? [new ProdutoPrato()] : $modelProduto
+                    'model' => $model
                 ]);
             }
         } else {
@@ -161,9 +174,9 @@ class PratoController extends Controller {
     public function actionUpdate($id) {
         if ((Yii::$app->user->can('nutricionista'))){
             $model = $this->findModel($id);
-            $modelProduto = $model->produtoPratos;
+            $model->carregaIngredientes();
 
-            if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 Yii::$app->getSession()->setFlash('info', [
                         'type' => 'info',
                         'duration' => 1200,
@@ -175,8 +188,7 @@ class PratoController extends Controller {
                 return $this->redirect(['index']);
             } else {
                 return $this->render('update', [
-                            'model' => $model,
-                            'modelProduto' => (empty($modelProduto)) ? [new ProdutoPrato()] : $modelProduto
+                    'model' => $model,
                 ]);
             }
         } else {
@@ -252,5 +264,59 @@ class PratoController extends Controller {
         }
 
         return $this->redirect(['/prato']);
+    }
+
+    /**
+     * @throws BadRequestHttpException
+     */
+    public function actionAddIngrediente()
+    {
+        $request = Yii::$app->request;
+
+        if ($request->isAjax) {
+
+            $session = Yii::$app->session;
+            $ingredientes = $session->get ('ingredientes');
+
+            $id = $request->post('id');
+
+            $ingredientes[$id] = [
+                'produto_id' => $id,
+                'descricao' => $request->post('value'),
+                'percapita' => $request->post('percapita'),
+            ];
+
+            $session['ingredientes'] = $ingredientes;
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ['data' => $session['ingredientes']];
+        }
+
+        throw new BadRequestHttpException();
+    }
+
+    /**
+     * @throws BadRequestHttpException
+     */
+    public function actionRemoveIngrediente()
+    {
+        $request = Yii::$app->request;
+
+        if ($request->isAjax) {
+
+            $session = Yii::$app->session;
+            $ingredientes = $session->get ('ingredientes');
+
+            $id = $request->post('id');
+
+            unset($ingredientes[$id]);
+
+            $session['ingredientes'] = $ingredientes;
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ['data' => $session['ingredientes']];
+        }
+
+        throw new BadRequestHttpException();
     }
 }

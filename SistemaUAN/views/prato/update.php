@@ -14,8 +14,7 @@ $this->params['breadcrumbs'][] = 'Update';
 <div class="prato-update">
 
     <?= $this->render('_form', [
-        'model' => $model,
-        'modelProduto' => $modelProduto,
+        'model' => $model
     ]) ?>
 
 </div>

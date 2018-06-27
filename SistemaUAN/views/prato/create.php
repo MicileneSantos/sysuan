@@ -13,8 +13,7 @@ $this->title = '';
 <div class="prato-create">
     
     <?= $this->render('_form', [
-        'model' => $model,
-        'modelProduto' => $modelProduto,
+        'model' => $model
     ]) ?>
 
 </div>
