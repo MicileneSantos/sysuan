@@ -181,28 +181,3 @@ $this->registerJs('
         <?php ActiveForm::end(); ?>
     </div>
 </div>
-
-<?php
-Modal::begin(
-    [
-        'id' => 'modal',
-        'header' => Html::tag('span', null),
-        'options' => [
-            'tabindex' => false,
-            'data-pjax' => true
-        ],
-        'clientOptions' => ['backdrop' => false, 'keyboard' => false],
-        'clientEvents' => [
-            'hide.bs.modal' => 'function() { 
-			$("#modal .modal-header span").empty();
-			$("#modal-content").empty();
-		}'
-        ],
-        'size' => Modal::SIZE_DEFAULT
-    ]
-);
-
-echo Html::tag('div', '', ['id'=>'modal-content']);
-
-Modal::end();
-?>
