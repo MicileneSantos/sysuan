@@ -19,13 +19,6 @@ $this->title = '';
     'method' => 'get',
 ]);?>
 
-<div class="pull-right">       
-    <?= Html::a('<b class="fa fa-arrow-left"></b> Voltar', ['site/nutricionista'], ['class' => 'btn btn-default','title' => 'Voltar', 'id' => 'modal-btn-voltar'])?>
-    <?= Html::a('<b class="fa fa-plus"></b> Novo', ['create'], ['class' => 'btn btn-success' ])?>
-    <?= Html::a('<b class="fa fa-download"></b>', ['gerar'], ['target'=>'_blank','class' => 'btn btn-default','title' => 'Exportar', 'id' => 'modal-btn-pdf'])?>
-</div>
-
-<hr>
 <div class="fornecedor-index">
     
     <?php Pjax::begin(); ?>    
@@ -36,17 +29,21 @@ $this->title = '';
         
         
         <div class="panel-heading">
-            <h5 class="panel-title">LISTA DE FORNECEDORES CADASTRADOS</h5>
+            <h5 class="panel-title"><i class="fa fa-users "></i> GERENCIAR FORNECEDORES</h5>
         </div>
-        <div class="box box-success"></div>
-            <div class="panel-body">
+        
+            <div class="box-body">
+                <div class="pull-right">       
+                    <?= Html::a('<b class="fa fa-arrow-left"></b> Voltar', ['site/nutricionista'], ['class' => 'btn btn-primary','title' => 'Voltar', 'id' => 'modal-btn-voltar'])?>
+                    <?= Html::a('<b class="fa fa-plus"></b> Novo', ['create'], ['class' => 'btn btn-success', 'title' => 'Adicionar fornecedor', ])?>
+                    <?php //Html::a('<b class="fa fa-download"></b>', ['gerar'], ['target' => '_blank', 'class' => 'btn btn-default', 'title' => 'Exportar', 'id' => 'modal-btn-pdf']) ?>                </div><br>
     
     <?= GridView::widget([
         //'id' => 'install-grid',
         //'export' => false,
         'dataProvider' => $dataProvider,
         'emptyText' => 'No momento não existem fornecedores cadastrados.',
-        'summary' => "Exibindo {begin} - {end} de {totalCount} itens",
+        'summary' => "Exibindo <strong> {begin}</strong> - <strong>{end}</strong> de <strong>{totalCount}</strong> itens.",
         //'resizableColumns' => false,
         //'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         //'filterRowOptions' => ['class' => 'kartik-sheet-style'],
@@ -54,83 +51,62 @@ $this->title = '';
         //'hover' => false,
         'filterModel' => $searchModel,
 
-        'rowOptions'=> function($model){
+        /*'rowOptions'=> function($model){
             if ($model->isAtivo == '0'){
                 return ['class'=>'danger'];
             } else {
                 return ['class'=>'success'];
             }         
-        },
+        },*/
         
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
             //'id',
+            'nome',
+            'cnpj',
+            'email:email',
+            'telefone',
+            
             [
-                'attribute' => 'nome',
-                'headerOptions' => [
-                    'style' => 'width: 100px;'
-                ]
-                
-            ],
-            [
-                'attribute' => 'cnpj',
-                'headerOptions' => [
-                    'style' => 'width: 100px;'
-                ]
-                
-            ],
-            [   
-                'attribute' => 'email',
-                'headerOptions' => [
-                    'style' => 'width: 100px;'
-                ]
-            ],
-            [
-                'attribute' => 'telefone',
-                'headerOptions' => [
-                    'style' => 'width: 100px;'
-                ]
-            ],
-
-            [
-                        'label'=>'Status (clique para alterar):',
-                        'headerOptions' => [
-                            'style' => 'width: 10px;'
-                        ],
-                        'format' => 'raw',
-                        'value' => function ($data){
-                            if ($data->isAtivo == 0){
-                                    $icon = '<span class="btn btn-danger btn-xs" role="button"> Inativo </span> '
+                'attribute' => 'isAtivo',
+                'format' => 'raw',
+                'headerOptions'=>['class'=> 'CustomHeader',],
+                'contentOptions' => ['class' => 'text-center'],
+                'value' => function ($data){
+                    if ($data->isAtivo == 0){
+                        $icon = '<span class="btn btn-danger btn-xs" title="Ativar Fornecedor" role="button"> Inativo </span> '
                                     . ' <label class="badge bagde-danger"></label> ';
-                                    $label = $icon;
-                                    $url = Yii::$app->urlManager->createUrl(["/fornecedor/ativar" , "id"=>$data->id]);
+                        $label = $icon;
+                        $url = Yii::$app->urlManager->createUrl(["/fornecedor/ativar" , "id"=>$data->id]);
                                     return  Html::a($label, $url) ;
-                                } else if ($data->isAtivo == 1) {
-                                    $icon = '<span class="btn btn-success btn-xs" role="button"> Ativo </span> '
+                    } else if ($data->isAtivo == 1) {
+                        $icon = '<span class="btn btn-success btn-xs" title="Desativar Fornecedor" role="button"> Ativo </span> '
                                     . ' <label class="badge bagde-success"></label> ';
-                                    $label = $icon;
-                                    $url = Yii::$app->urlManager->createUrl(["/fornecedor/desativar" , "id"=>$data->id]);
+                        $label = $icon;
+                        $url = Yii::$app->urlManager->createUrl(["/fornecedor/desativar" , "id"=>$data->id]);
                                     return  Html::a($label, $url) ;
-                                } 
+                    } 
                             
-                        },
-                    ],
+                },
+            ],
 
             [
-                'class' => 'kartik\grid\ActionColumn',
+                'class' => 'yii\grid\ActionColumn',
                 'header' => 'Ações',
-                'template' => '{view_action}{update_action}',
+                'headerOptions'=>['class'=> 'CustomHeader',],
+                'contentOptions' => ['class' => 'text-center'],
+                'template' => '{view}{update}',
                 'buttons' => [
-                    'view_action' => function($url, $model) {
-                        return Html::a('<span class="btn btn-success"><b class="fa fa-eye"></b></span>', ['view', 'id' => $model['id']], ['title' => 'Visualizar', 'id' => 'modal-btn-view']);
+                    'view' => function($url, $model) {
+                        return Html::a('<span class="btn btn-primary"><b class="fa fa-eye"></b></span>', ['view', 'id' => $model['id']], ['title' => 'Visualizar', 'id' => 'modal-btn-view']);
                     },
-                    'update_action' => function($url, $model) {
-                        return Html::a('<span class="btn btn-warning"><b class="fa fa-pencil"></b></span>', ['update', 'id' => $model['id']], ['title' => 'Alterar', 'id' => 'modal-btn-view']);
+                    'update' => function($url, $model) {
+                        return Html::a('<span class="btn btn-success"><b class="glyphicon glyphicon-edit"></b></span>', ['update', 'id' => $model['id']], ['title' => 'Editar Fornecedor', 'id' => 'modal-btn-view']);
                     },
-                    /*'delete_action' => function($url, $model) {
-                        return Html::a('<span class="btn btn-danger"><b class="fa fa-trash"></b></span>', ['delete', 'id' => $model['id']], ['title' => 'Excluir', 'class' => '', 'data' => ['confirm' => 'Deseja excluir esta categoria?', 'method' => 'post', 'data-pjax' => false],]);
-                    }*/
+                    'delete' => function($url, $model) {
+                        return Html::a('<span class="btn btn-danger"><b class="fa fa-trash"></b></span>', ['delete', 'id' => $model['id']], ['title' => 'Excluir', 'class' => '', 'data' => ['confirm' => 'Deseja excluir este fornecedor?', 'method' => 'post', 'data-pjax' => false],]);
+                    }
                 ],                    
           
             ],
@@ -140,3 +116,11 @@ $this->title = '';
 </div>
 </div>
 </div>
+<style type="text/css">
+    .CustomHeader{
+        color: #3c8dbc;
+        text-align: center;
+        width: 15%;
+    }
+</style>
+

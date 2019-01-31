@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 use yii\widgets\MaskedInput;
 use yii\widgets\datapicker;
 
@@ -12,12 +12,14 @@ use yii\widgets\datapicker;
 <hr>
 <div class="fornecedor-form">
     <div class="panel panel-success">
-    <div class="panel-heading"><h5 class="panel-title">CADASTRO DE FORNECEDORES</h5></div>
+    <div class="panel-heading"><h5 class="panel-title"><i class="fa fa-users "></i> CADASTRO DE FORNECEDORES</h5></div>
         <div class="box box-success">
+
             <?php $form = ActiveForm::begin([
                 'options' => ['data-pjax' => true]
             ]); ?>
                 <div class="box-header with-border">
+                    <p class="note "><?php echo ( ' Campos com'); ?> <span class="required"> <b style=color:red;>*</b></span> <?php echo ('são obrigatórios.'); ?></p><br>
                     <div class="row">
                         
                         <div class="col-md-6"><?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?></div>
@@ -55,7 +57,7 @@ use yii\widgets\datapicker;
                     </div>
 
                     <div class="form-group">
-                        <div class="pull-right"><?= Html::a('Cancelar', ['fornecedor/index'], ['class' => 'btn btn-default']) ?>
+                        <div class="pull-right"><button onClick="history.go(-1)" class="btn btn-default" ><font style="vertical-align: inherit;">Cancelar</font></button>
                         <?= Html::submitButton($model->isNewRecord ? 'Salvar' : 'Alterar', ['class' => 'btn btn-success']) ?>
                         </div>
                     </div>

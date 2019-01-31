@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Contrato */
+/* @var $model app\models\ProdutoContrato */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Contratos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Produto Contratos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="contrato-view">
+<div class="produto-contrato-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,8 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'numero',
-            'fornecedor_id',
+            'produto_id',
+            'unidade_id',
+            'marca',
+            'valoruni',
+            'quantidade',
+            'contrato_id',
         ],
     ]) ?>
 
