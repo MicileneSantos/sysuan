@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Contrato;
 use app\models\ContratoSearch;
+use app\models\ProdutoContrato;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -57,6 +58,20 @@ class ContratoController extends Controller
         ]);
     }
 
+    
+    /**
+     * @param $action
+     * @return bool
+     * @throws BadRequestHttpException
+     */
+    public function beforeAction ($action)
+    {
+        if (in_array ($action->id, ['index', 'view'])) {
+            Yii::$app->session->remove ('ingredientes');
+        }
+        return parent::beforeAction ($action);
+    }
+    
     /**
      * Creates a new Contrato model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -64,15 +79,31 @@ class ContratoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Contrato();
+        if ((Yii::$app->user->can('nutricionista'))){
+            $model = new Contrato();
+            $model::ingredienteSession ();
+        
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+                //$model->data=date('Y-m-d h:m:s');
+                
+                Yii::$app->getSession()->setFlash('info', [
+                            'type' => 'success',
+                            'duration' => 1200,
+                            'message' => 'Cadastro realizado com sucesso. ',
+                            'title' => '',
+                            'positonY' => 'top',
+                            'positonX' => 'right'
+                    ]);
+                    return $this->redirect(['index']);
+                } else {
+                    return $this->render('create', [
+                        'model' => $model
+                    ]);
+            }
+        } else {
+           throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -84,15 +115,28 @@ class ContratoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+       if ((Yii::$app->user->can('nutricionista'))){
+            $model = $this->findModel($id);
+            $model->carregaIngredientes();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                Yii::$app->getSession()->setFlash('info', [
+                        'type' => 'success',
+                        'duration' => 1200,
+                        'message' => 'Alteração realizada com sucesso. ',
+                        'title' => '',
+                        'positonY' => 'top',
+                        'positonX' => 'right'
+                ]);
+                return $this->redirect(['index']);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+        } else {
+           throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -104,9 +148,21 @@ class ContratoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        if ((Yii::$app->user->can('nutricionista'))){
+            $this->findModel($id)->delete();
+            
+            Yii::$app->getSession()->setFlash('info', [
+                'type' => 'danger',
+                'duration' => 1200,
+                'message' => 'Exclusão realizada com sucesso. ',
+                'title' => '',
+                'positonY' => 'top',
+                'positonX' => 'right'
+            ]);
+            return $this->redirect(['index']);
+        } else {
+           throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
+        }
     }
 
     /**
@@ -123,5 +179,93 @@ class ContratoController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    
+    public function actionInserirProduto($q = null, $id = null) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = new \yii\db\Query;
+            $query->select('id, descricao AS text')
+                ->from('produto')
+                ->where(['like', 'descricao', $q])
+                ->limit(25);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => \app\models\ProdutoPrato::find($id)->descricao];
+        }
+        return $out;
+    }
+
+    public function actionAdicionaproduto()
+    {
+        $modelProduto = new \app\models\ProdutoPrato();
+
+        if ($modelProduto->load(Yii::$app->request->post()) && $modelProduto->save()) {
+            return $this->redirect(['view', 'id' => $modelProduto->prato_id]);
+        }
+
+        return $this->redirect(['/prato']);
+    }
+
+    /**
+     * @throws BadRequestHttpException
+     */
+    public function actionAddIngrediente()
+    {
+        $request = Yii::$app->request;
+
+        if ($request->isAjax) {
+
+            $session = Yii::$app->session;
+            $ingredientes = $session->get ('ingredientes');
+
+            $id = $request->post('id');
+
+            $ingredientes[$id] = [
+                'produto_id' => $id,
+                'descricao' => $request->post('value'),
+                'marca' => $request->post('marca'),
+                'unidade_id' => $request->post('unidade_id'),
+                'contrato_id' => $request->post('contrato_id'),
+                'valoruni' => $request->post('valoruni'),
+                'quantidade' => $request->post('quantidade'),
+            ];
+
+            $session['ingredientes'] = $ingredientes;
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ['data' => $session['ingredientes']];
+        }
+
+        throw new BadRequestHttpException();
+    }
+
+    /**
+     * @throws BadRequestHttpException
+     */
+    public function actionRemoveIngrediente()
+    {
+        $request = Yii::$app->request;
+
+        if ($request->isAjax) {
+
+            $session = Yii::$app->session;
+            $ingredientes = $session->get ('ingredientes');
+
+            $id = $request->post('id');
+
+            unset($ingredientes[$id]);
+
+            $session['ingredientes'] = $ingredientes;
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ['data' => $session['ingredientes']];
+        }
+
+        throw new BadRequestHttpException();
     }
 }
