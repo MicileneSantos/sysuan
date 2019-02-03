@@ -10,10 +10,10 @@ $this->params['breadcrumbs'][]= [
 'label'	=> 'Restore',
 'url'	=> array('restore'),
 ];
-/*$this->params['breadcrumbs'][]= [
+$this->params['breadcrumbs'][]= [
 'label'	=> 'Download',
 'url'	=> array('download'),
-];*/?>
+];?>
 
 <?php
 //$this->widget('bootstrap.widgets.TbButtonGroup', array(

@@ -13,7 +13,10 @@ $this->title = 'Backup - Administrador';
 <div class="row">
     <div class="col-md-12">
         <!-- BEGIN SAMPLE TABLE PORTLET-->
-
+        <div class="panel panel-success">
+        <div class="panel-heading"><h5 class="panel-title"><i class="fa fa-database "></i> ARQUIVOS DE BACKUP DO BANCO DE DADOS</h5></div>
+        <div class="box-body">
+            <div class="pull-right"><?= Html::a('<i class="fa fa-database "> </i>  Backup ', ['create'], ['class' => 'btn btn-success create-backup margin-right5', 'title' => 'Criar Backup'])?></div><br><br>
         <?= GridView::widget([
 
             'id' => 'install-grid',
@@ -26,11 +29,11 @@ $this->title = 'Backup - Administrador';
             'filterRowOptions' => ['class' => 'kartik-sheet-style'],
             'responsive' => true,
             'hover' => true,
-            'panel' => [
-                'heading' => '<h3 class="panel-title"> ARQUIVOS DE BACKUP DO BANCO DE DADOS</h3>',
+            /*'panel' => [
+                'heading' => '<h3 class="panel-title"><i class="fa fa-database "></i> ARQUIVOS DE BACKUP DO BANCO DE DADOS</h3>',
                 'type' => 'success',
                 //'showFooter' => false
-            ],
+            ],*/
             // set your toolbar
             'toolbar' => [
                 ['content' =>
@@ -38,10 +41,10 @@ $this->title = 'Backup - Administrador';
                 ],
             ],
 
-            'columns' => array(
+            'columns' => [
                 
                 ['attribute'=>'Nome', 'value'=>'name',],
-                ['label'=> 'Tamanho', 'value'=> 'size',],
+                'size:size',
                 ['label'=>'Hora de criação', 'value'=>'create_time',],
                 ['label'=>'Hora de modificação', 'value'=>'modified_time',],
                 
@@ -52,7 +55,7 @@ $this->title = 'Backup - Administrador';
                     'buttons' => [
                         'restore_action' => function ($url, $model) {
                             return Html::a('<span class="glyphicon glyphicon-import"></span>', $url, [
-                                'title' => 'Restaurar','class'=>'restore', 'data' => ['confirm' => 'Deseja restaurar esta cópia de segurança?', 'method' => 'post', 'data-pjax' => false],
+                                'title' => 'Restaurar Backup','class'=>'restore', 'data' => ['confirm' => 'Deseja restaurar esta cópia de segurança?', 'method' => 'post', 'data-pjax' => false],
                             ]);
                         }
                     ],
@@ -63,13 +66,13 @@ $this->title = 'Backup - Administrador';
                         }
                     }
                 ],
-                [
+                /*[
                     'class' => 'kartik\grid\ActionColumn',
-                    'template' => '{download_action}',
+                    'template' => '',
                     'header' => 'Baixar',
                     'buttons' => [
-                        'restore_action' => function ($url, $model) {
-                            return Html::a('<span class="glyphicon glyphicon-download"></span>', $url, [
+                        'download_action' => function ($url, $model) {
+                            return Html::a('<span class="fa fa-download"></span>', $url, [
                                 'title' => 'Baixar','class'=>'download', 'data' => ['confirm' => 'Deseja baixar esta cópia de segurança?', 'method' => 'post', 'data-pjax' => false],
                             ]);
                         }
@@ -80,26 +83,26 @@ $this->title = 'Backup - Administrador';
                             return $url;
                         }
                     }
-                ],
+                ],*/
                 [
                     'class' => 'kartik\grid\ActionColumn',
-                    'template' => '{delete_action}',
+                    'template' => '{delete}',
                     'header' => 'Excluir',
                     'buttons' => [
-                        'delete_action' => function ($url, $model) {
+                        'delete' => function ($url, $model) {
                             return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
                                 'title' => Yii::t('app', 'Excluir'),'class'=>'delete', 'data' => ['confirm' => 'Deseja excluir esta cópia de segurança?', 'method' => 'post', 'data-pjax' => false],
                             ]);
                         }
                     ],
                     'urlCreator' => function ($action, $model, $key, $index) {
-                        if ($action === 'delete_action') {
+                        if ($action === 'delete') {
                             $url = Url::to(['backuprestore/delete', 'filename' => $model['name']]);
                             return $url;
                         }
                     }
                 ],
-            ),
+            ],
         ]);
         ?>
     </div>

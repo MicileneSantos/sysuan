@@ -1,14 +1,5 @@
 <div class="backup-default-index">
 
-    <?php
-    $this->params ['breadcrumbs'] [] = [
-        'label' => 'Backup',
-        'url' => array(
-            'index'
-        )
-    ];
-    ?>
-
     <?php if (Yii::$app->session->hasFlash('success')): ?>
         <div class="alert alert-success">
             <?php echo Yii::$app->session->getFlash('success'); ?>
