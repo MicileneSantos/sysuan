@@ -7,27 +7,41 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\Refeicao */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<hr>
+
 <div class="refeicao-form">
     <div class="panel panel-success">
     <div class="panel-heading"><h5 class="panel-title">CADASTRO DE REFEIÇÃO</h5></div>
         <div class="box box-success">
 			
-				<?php $form = ActiveForm::begin(); ?>
-					<div class="box-header with-border">
+            <?php
+        if ($this->context->action->id == 'update')
+            $action = ['update', 'id' => $_REQUEST['id']];
+        else
+            $action = ['create'];
+        ?>
+        <?php
+        $form = ActiveForm::begin([
 
-					    <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
+                    'id' => 'panel panel-info',
+                    'enableAjaxValidation' => true,
+                    'action' => $action,
+                    'fieldConfig' => [
+                        'template' => " <strong>Descrição</strong> {input}{error}",
+                    ],
+        ]);
+        ?>
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-4"><?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?></div>
+                    </div>
 
-					    <div class="form-group">
-	                        <div class="pull-right">
-	                        	<?= Html::a('Cancelar', ['refeicao/index'], ['class' => 'btn btn-default']) ?>
-	                        	<?= Html::submitButton($model->isNewRecord ? 'Salvar' : 'Alterar', ['class' => 'btn btn-success']) ?>
-	                        </div>
-	                    </div>
-					</div>
-
-				<?php ActiveForm::end(); ?>
-			
-		</div>
+                    <div class="form-group">
+                        <div class="pull-right">
+                            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Salvar') : Yii::t('app', 'Alterar'), ['class' => $model->isNewRecord  ? 'btn btn-block btn-success' : 'btn btn-block btn-primary']) ?>                        </div>
+                    </div>
+                </div>
+            
+            <?php ActiveForm::end(); ?>
+        </div>
     </div>
 </div>

@@ -6,11 +6,11 @@ use yii\helpers\ArrayHelper;
 use app\models\Categoria;
 use app\models\Unidade;
 
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Produto */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<hr>
 <div class="produto-form">
 
     <div class="panel panel-success">
@@ -21,6 +21,7 @@ use app\models\Unidade;
             'options' => ['data-pjax' => true]
         ]); ?>
             <div class="box-header with-border">
+                <p class="note "><?php echo ( ' Campos com'); ?> <span class="required"> <b style=color:red;>*</b></span> <?php echo ('são obrigatórios.'); ?></p><br>
         
                 <div class="box-body">
                     <div class="row">

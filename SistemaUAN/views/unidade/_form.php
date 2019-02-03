@@ -7,29 +7,42 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\Unidade */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<hr>
+
 <div class="unidade-form">
     <div class="panel panel-success">
     <div class="panel-heading">
-        <h5 class="panel-title">CADASTRO DE UNIDADE DE MEDIDA</h5></div>
+        <h5 class="panel-title"><i class="fa fa-cubes "></i> CADASTRO DE UNIDADE DE MEDIDA</h5></div>
         <div class="box box-success">
-        <?php $form = ActiveForm::begin([
-            'options' => ['data-pjax' => true]
-        ]); ?>
-            <div class="box-header with-border">
-        
-                <div class="row">
-                    <div class="col-md-6"><?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?></div>
-                </div>
+       <?php
+        if ($this->context->action->id == 'update')
+            $action = ['update', 'id' => $_REQUEST['id']];
+        else
+            $action = ['create'];
+        ?>
+        <?php
+        $form = ActiveForm::begin([
+
+                    'id' => 'panel panel-info',
+                    'enableAjaxValidation' => true,
+                    'action' => $action,
+                    'fieldConfig' => [
+                        'template' => " <strong>Descrição</strong> {input}{error}",
+                    ],
+        ]);
+        ?>
+                <div class="box-header with-border">
                     
-                <div class="form-group">
-                    <div class="pull-right">
-                        <?= Html::a('Cancelar', ['unidade/index'], ['class' => 'btn btn-default']) ?>
-                        <?= Html::submitButton($model->isNewRecord ? 'Salvar' : 'Alterar', ['class' => 'btn btn-success']) ?>
+                    <div class="row">
+                        <div class="col-md-4"><?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?></div>
                     </div>
-                </div>   
- 
-            </div>
-        <?php ActiveForm::end(); ?>
+
+                    <div class="form-group">
+                        <div class="pull-right">
+                            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Salvar') : Yii::t('app', 'Alterar'), ['class' => $model->isNewRecord  ? 'btn btn-block btn-success' : 'btn btn-block btn-primary']) ?>                        </div>
+                    </div>
+                </div>
+            
+            <?php ActiveForm::end(); ?>
+        </div>
     </div>
 </div>

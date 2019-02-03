@@ -4,16 +4,16 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Refeicao */
+/* @var $model app\models\Producao */
 
 /*$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Refeição', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Producaos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;*/
 ?>
-<div class="refeicao-view">
+<div class="producao-view">
     <div class="panel panel-success">
         <div class="panel-heading">
-            <h5 class="panel-title">Dados da Refeição</h5>
+            <h5 class="panel-title">Dados do Registro de Produção</h5>
         </div>
         <div class="panel-body">
             <div class="pull-right">       
@@ -24,7 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;*/
                 'model' => $model,
                 'attributes' => [
                     //'id',
-                    'descricao',
+                    'prato_id',
+                    'quantidade',
                 ],
             ]) ?>
         </div>

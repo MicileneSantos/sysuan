@@ -15,15 +15,16 @@ use yii\widgets\ActiveForm;
         <div class="box box-success">
         <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
             <div class="box-header with-border">
+                <p class="note "><?php echo ( ' Campos com'); ?> <span class="required"> <b style=color:red;>*</b></span> <?php echo ('são obrigatórios.'); ?></p><br>
 
                     <?= $form->field($model, 'titulo')->textInput(['maxlength' => true]) ?>
 
                     <?= $form->field($model, 'conteudo')->textarea(['rows' => 6]) ?>
                                                                     
-                    <?= $form->field($model, 'foto')->fileInput() ?>
+                    <?= $form->field($model, 'imageFile')->fileInput() ?>
 
                     <div class="form-group">
-                        <div class="pull-right"><?= Html::a('Cancelar', ['noticias/index'], ['class' => 'btn btn-default']) ?>
+                        <div class="pull-right"><button onClick="history.go(-1)" class="btn btn-default" ><font style="vertical-align: inherit;">Cancelar</font></button>
                         <?= Html::submitButton($model->isNewRecord ? 'Salvar' : 'Alterar', ['class' => 'btn btn-success']) ?>
                         </div>
                     </div>
