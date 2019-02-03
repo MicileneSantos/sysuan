@@ -2,17 +2,18 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProdutoPratoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Produto Pratos';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="produto-prato-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -28,8 +29,10 @@ $this->title = 'Produto Pratos';
             'id',
             'prato_id',
             'produto_id',
+            'percapita',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 </div>

@@ -11,8 +11,9 @@ use yii\widgets\ActiveForm;
 <div class="categoria-form">
     <div class="panel panel-success">
     <div class="panel-heading"><h5 class="panel-title">CADASTRO DE CATEGORIA</h5></div>
-        <div class="box box-success">  
-        <?php
+        <div class="box box-success">
+			
+            <?php
         if ($this->context->action->id == 'update')
             $action = ['update', 'id' => $_REQUEST['id']];
         else
@@ -35,9 +36,8 @@ use yii\widgets\ActiveForm;
                     </div>
 
                     <div class="form-group">
-                        <div class="pull-right"><?= Html::a('Cancelar', ['categoria/index'], ['class' => 'btn btn-default']) ?>
-                        <?= Html::submitButton($model->isNewRecord ? 'Salvar' : 'Alterar', ['class' => 'btn btn-success']) ?>
-                        </div>
+                        <div class="pull-right">
+                            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Salvar') : Yii::t('app', 'Alterar'), ['class' => $model->isNewRecord  ? 'btn btn-block btn-success' : 'btn btn-block btn-primary']) ?>                        </div>
                     </div>
                 </div>
             
