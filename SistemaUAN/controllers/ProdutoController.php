@@ -115,14 +115,22 @@ class ProdutoController extends Controller
                         'message' => 'Cadastro realizado com sucesso. ',
                         'title' => '',
                         'positonY' => 'top',
-                        'positonX' => 'left'
+                        'positonX' => 'right'
                     ]);
                     return $this->redirect(['index']);
+            } elseif (Yii::$app->request->isAjax) {
+                return $this->renderAjax('_form', [
+                        'model' => $model
+                ]);
+            } else {
+                return $this->render('_form', [
+                            'model' => $model
+                ]);
             }
 
-            return $this->render('create', [
+            /*return $this->renderAjax('create', [
                 'model' => $model,
-            ]);
+            ]);*/
         } else {
            throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
         }
@@ -147,7 +155,7 @@ class ProdutoController extends Controller
                         'message' => 'Alteração realizada com sucesso. ',
                         'title' => '',
                         'positonY' => 'top',
-                        'positonX' => 'left'
+                        'positonX' => 'right'
                     ]);
                     return $this->redirect(['index']);
             }
@@ -178,7 +186,7 @@ class ProdutoController extends Controller
                 'message' => 'Exclusão realizada com sucesso. ',
                 'title' => '',
                 'positonY' => 'top',
-                'positonX' => 'left'
+                'positonX' => 'right'
             ]);
             return $this->redirect(['index']);
         } else {

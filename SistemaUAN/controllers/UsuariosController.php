@@ -147,11 +147,12 @@ class UsuariosController extends Controller
 
                                 Yii::$app->getSession()->setFlash('info', [
                                                 'type' => 'success',
+                                                'icon' => 'fa fa-check ',
                                                 'duration' => 1000,
-                                                'message' => 'Cadastro realizado com sucesso. ',
+                                                'message' => ' Cadastro realizado com sucesso. ',
                                                 'title' => '',
                                                 'positonY' => 'top',
-                                                'positonX' => 'left'
+                                                'positonX' => 'right'
                                                 ]);
 
                                 return $this->redirect(array('usuarios/index'));
@@ -161,12 +162,13 @@ class UsuariosController extends Controller
                             
                             Yii::$app->getSession()->setFlash('info', [
                                                 'type' => 'success',
+                                                'icon' => 'fa fa-check ',
                                                 'duration' => 1000,
-                                                'message' => 'Cadastro realizado com sucesso. '
+                                                'message' => ' Cadastro realizado com sucesso. '
                                                             . 'Aguarde análise do administrador.',
                                                 'title' => '',
                                                 'positonY' => 'top',
-                                                'positonX' => 'left'
+                                                'positonX' => 'right'
                                                 ]); 
 
                             return $this->redirect(array('site/index'));
@@ -192,7 +194,9 @@ class UsuariosController extends Controller
     {
         if ((Yii::$app->user->can('admin'))){
             $model = $this->findModel($id);
-            $model->password_hash= null;
+            //$model->password_hash= null;
+            $model->password_hash= $model->password_hash;
+            $model->password_hash_repeat = $model->password_hash;
 
                 if(isset($_POST['User'])){
                 $model->attributes=$_POST['User'];
@@ -214,11 +218,12 @@ class UsuariosController extends Controller
 
                             Yii::$app->getSession()->setFlash('info', [
                                                     'type' => 'info',
+                                                    'icon' => 'fa fa-check ',
                                                     'duration' => 1000,
                                                     'message' => 'Atualização de dados realizada com sucesso. ',
                                                     'title' => '',
                                                     'positonY' => 'top',
-                                                    'positonX' => 'left'
+                                                    'positonX' => 'right'
                                                     ]);
 
                             return $this->redirect(array('index'));
@@ -244,12 +249,13 @@ class UsuariosController extends Controller
         if ((Yii::$app->user->can('admin'))){
             $this->findModel($id)->delete();
             Yii::$app->getSession()->setFlash('info', [
-                                                    'type' => 'info',
+                                                    'type' => 'danger',
+                                                    'icon' => 'fa fa-check ',
                                                     'duration' => 1000,
                                                     'message' => 'Exclusão realizada com sucesso. ',
                                                     'title' => '',
                                                     'positonY' => 'top',
-                                                    'positonX' => 'left'
+                                                    'positonX' => 'right'
                                                     ]);
             return $this->redirect(['index']);
         } else {
@@ -300,6 +306,16 @@ class UsuariosController extends Controller
             }
             $model->isAtivo = '1';
             $model->save(false);
+            
+            Yii::$app->getSession()->setFlash('success', [
+                                              'type' => 'success',
+                                              'icon' => 'fa fa-check ',
+                                              'duration' => 1000,
+                                              'message' => 'Usuário: '. $model->nome. ' ativado com sucesso!',
+                                              'title' => '',
+                                              'positonY' => 'top',
+                                              'positonX' => 'right'
+                                            ]);
             $this->redirect(array("usuarios/index"));   
         } else {
             throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
@@ -316,7 +332,15 @@ class UsuariosController extends Controller
                 foreach ($assignment as $assignments) {
                     $assignments->delete($id); 
                 } 
-                
+            Yii::$app->getSession()->setFlash('danger', [
+                                                'type' => 'danger',
+                                                'icon' => 'fa fa-check ',
+                                                'duration' => 1000,
+                                                'message' => 'Usuário: '. $model->nome. ' desativado com sucesso.',
+                                                'title' => '',
+                                                'positonY' => 'top',
+                                                'positonX' => 'right'
+                                                ]);
             $this->redirect(array("usuarios/index"));                
         } else {
             throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
@@ -347,6 +371,14 @@ class UsuariosController extends Controller
                     } 
                     $model->isAtivo = '1';    
                     $model->save(false);
+                    Yii::$app->getSession()->setFlash('success', [
+                        'type' => 'success',
+                        'duration' => 10000,
+                        'message' => 'Usuário: ' . $model->nome . ' Reativado Com Sucesso.',
+                        'title' => '',
+                        'positonY' => 'top',
+                        'positonX' => 'right'
+                    ]);
             }
             $model->isAtivo = '1';
             $model->save(false);

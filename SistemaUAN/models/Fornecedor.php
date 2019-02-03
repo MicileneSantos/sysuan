@@ -67,6 +67,7 @@ class Fornecedor extends ActiveRecord
             'bairro' => 'Bairro',
             'cidade' => 'Cidade',
             'estado' => 'Estado',
+            'isAtivo' => 'Status',
         ];
     }
 }

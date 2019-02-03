@@ -87,13 +87,13 @@ class PratoController extends Controller {
         
         if ((Yii::$app->user->can('nutricionista'))){
             $searchModel = new PratoSearch();
-            $relacao = ProdutoPrato::find();
+            //$relacao = ProdutoPrato::find();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             return $this->render('index', [
                         'searchModel' => $searchModel,
                         'dataProvider' => $dataProvider,
-                        'relacao' => $relacao,
+                        //'relacao' => $relacao,
             ]);
         } else {
            throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
@@ -111,32 +111,47 @@ class PratoController extends Controller {
 
             $model = $this->findModel($id);
             $modelProduto = new ProdutoPrato();
+            $produtos = \app\models\ProdutoPrato::find(['prato_id' => $id])->all();
             $modelProduto->prato_id = $model->id;
 
             return $this->render('view', [
                 'model' => $model,
                 'modelProduto' => $modelProduto,
+                'produtos' => $produtos,
             ]);
         } else {
            throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
         }
     }
-
-    public function actionProduto($id) {
-        if ((Yii::$app->user->can('nutricionista'))){
-
-            $model = $this->findModel($id);
-            $modelProduto = new ProdutoPrato();
-            $modelProduto->prato_id = $model->id;
-
-            return $this->render('produto', [
-                'model' => $model,
-                'modelProduto' => $modelProduto,
-            ]);
-        } else {
-           throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
-        }
+        
+    public function  actionSalvar($id){
+       $model = $this->findModel($id);
+       $model::ingredienteSession ();
+       $query = \app\models\ProdutoPrato::find()->where(['prato_id' => $id ]);
+       $data = new \yii\data\ActiveDataProvider ([
+            'query' => $query
+        ]);
+       
+       if ($model->load(Yii::$app->request->post()) && $model->save()) {
+           
+                $model->save(false);
+                Yii::$app->getSession()->setFlash('success', [
+                        'type' => 'success',
+                        'duration' => 1200,
+                        'message' => 'Cadastro realizado com sucesso. ',
+                        'title' => '',
+                        'positonY' => 'top',
+                        'positonX' => 'right'
+                ]);
+                $model->save(false);
+                return $this->redirect(array('prato/index'));
+            }
+        return $this->render('create', [
+            'model' => $model,
+            'data' => $data,            
+        ]);   
     }
+
 
     /**
      * Creates a new Prato model.
@@ -146,26 +161,30 @@ class PratoController extends Controller {
     public function actionCreate() {
         if ((Yii::$app->user->can('nutricionista'))){
             $model = new Prato();
-
             $model::ingredienteSession ();
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //$modelProduto->unidade_id = $produto->unidade_id;
 
-                Yii::$app->getSession()->setFlash('info', [
+                /*Yii::$app->getSession()->setFlash('info', [
                         'type' => 'success',
                         'duration' => 1200,
                         'message' => 'Cadastro realizado com sucesso. ',
                         'title' => '',
                         'positonY' => 'top',
-                        'positonX' => 'left'
-                ]);
-                return $this->redirect(['index']);
+                        'positonX' => 'right'
+                ]);*/
+                //return $this->redirect(['view', 'id' => $model->id]);
+                //$model->prato_id = $model->id;
+                $model::ingredienteSession ();
+                return $this->redirect(array('prato/salvar?id=' . $model->id));
             } else {
                 return $this->render('create', [
-                    'model' => $model
+                    'model' => $model,
+                    //'modelProduto' => $modelProduto,
+                    //'produto' => (empty($produto)) ? [new Produto] : $produto,
                 ]);
-            }
+            } 
         } else {
            throw new NotFoundHttpException('Você não tem permissão para acessar esta página.');
         }
@@ -177,13 +196,13 @@ class PratoController extends Controller {
             $model->carregaIngredientes();
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                Yii::$app->getSession()->setFlash('info', [
-                        'type' => 'info',
+                Yii::$app->getSession()->setFlash('success', [
+                        'type' => 'success',
                         'duration' => 1200,
                         'message' => 'Alteração realizada com sucesso. ',
                         'title' => '',
                         'positonY' => 'top',
-                        'positonX' => 'left'
+                        'positonX' => 'right'
                 ]);
                 return $this->redirect(['index']);
             } else {
@@ -207,13 +226,13 @@ class PratoController extends Controller {
         if ((Yii::$app->user->can('nutricionista'))){
             $this->findModel($id)->delete();
             
-            Yii::$app->getSession()->setFlash('info', [
-                'type' => 'info',
+            Yii::$app->getSession()->setFlash('danger', [
+                'type' => 'danger',
                 'duration' => 1200,
                 'message' => 'Exclusão realizada com sucesso. ',
                 'title' => '',
                 'positonY' => 'top',
-                'positonX' => 'left'
+                'positonX' => 'right'
             ]);
             return $this->redirect(['index']);
         } else {
@@ -244,7 +263,7 @@ class PratoController extends Controller {
             $query->select('id, descricao AS text')
                 ->from('produto')
                 ->where(['like', 'descricao', $q])
-                ->limit(20);
+                ->limit(25);
             $command = $query->createCommand();
             $data = $command->queryAll();
             $out['results'] = array_values($data);

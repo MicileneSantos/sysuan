@@ -122,6 +122,7 @@ class FornecedorController extends Controller
         if ((Yii::$app->user->can('nutricionista'))){
     
             $model = new Fornecedor();
+            $model->isAtivo = 1;
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 Yii::$app->getSession()->setFlash('info', [
@@ -130,7 +131,7 @@ class FornecedorController extends Controller
                                                 'message' => 'Cadastro realizado com sucesso. ',
                                                 'title' => '',
                                                 'positonY' => 'top',
-                                                'positonX' => 'left'
+                                                'positonX' => 'right'
                                                 ]);
                 return $this->redirect(['index']);
             }
@@ -163,7 +164,7 @@ class FornecedorController extends Controller
                                                     'message' => 'Atualização de dados realizada com sucesso. ',
                                                     'title' => '',
                                                     'positonY' => 'top',
-                                                    'positonX' => 'left'
+                                                    'positonX' => 'right'
                                                     ]);
                 return $this->redirect(['index']);
             }
@@ -194,7 +195,7 @@ class FornecedorController extends Controller
                                                 'message' => 'Exclusão realizada com sucesso. ',
                                                 'title' => '',
                                                 'positonY' => 'top',
-                                                'positonX' => 'left'
+                                                'positonX' => 'right'
                                                 ]);
             return $this->redirect(['index']);
         } else {
@@ -227,6 +228,15 @@ class FornecedorController extends Controller
                    
                     $model->isAtivo = '1';    
                     $model->save(false);
+
+                    Yii::$app->getSession()->setFlash('success', [
+                        'type' => 'success',
+                        'duration' => 10000,
+                        'message' => 'Fornecedor: ' . $model->nome . ' ativado com sucesso.',
+                        'title' => '',
+                        'positonY' => 'top',
+                        'positonX' => 'right'
+                    ]);
             }
             $model->isAtivo = '1';
             $model->save(false);
@@ -241,7 +251,15 @@ class FornecedorController extends Controller
             $model = $this->findModel($id);
             $model->isAtivo='0';  
             $model->save(false);  
-           
+            
+            Yii::$app->getSession()->setFlash('danger', [
+                'type' => 'danger',
+                'duration' => 10000,
+                'message' => 'Fornecedor: ' . $model->nome . ' desativado com sucesso.',
+                'title' => '',
+                'positonY' => 'top',
+                'positonX' => 'right'
+            ]);
                           
             $this->redirect(array("fornecedor/index"));                
         } else {
