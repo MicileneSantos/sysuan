@@ -7,23 +7,21 @@ use Kartik\grid\GridView;
 /* @var $searchModel app\models\ProdutoPratoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-//$this->title = 'Produto Pratos';
-//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="produto-prato-index">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5 class="panel-title"><i class="fa fa-list "></i> Ingredientes</h5>
+        </div>
 
-    
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?php //Html::a('Create Produto Prato', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <div class="box-body">
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'summary' => '',
         //'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
             //'prato_id',
             [
@@ -33,10 +31,8 @@ use Kartik\grid\GridView;
             [
                 'label' => 'Per capita',
                 'value' => 'percapita',
-            ],
-            
-
+            ]
             //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-</div>
+</div></div>

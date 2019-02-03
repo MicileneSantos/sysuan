@@ -31,7 +31,7 @@ $total = Prato::find()->count();
             'dataProvider' => $dataProvider,
             //'filterModel' => $searchModel,
             'summary' => '',
-        'columns' => [
+            'columns' => [
             //['class' => 'yii\grid\SerialColumn'], 
 
             //'id',
